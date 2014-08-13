@@ -20,7 +20,7 @@ function startDive(dir) {
 }
 
 function createOrgaDir(dir, cb) {
-  fileOperations.createDir(dir + '/organized', cb);
+  fileOperations.createDir(dir + '/../data-organized', cb);
 }
 
 function handleFile(file) {
