@@ -1,0 +1,21 @@
+{
+  "name": "picorga",
+  "version": "0.0.1",
+  "description": "Picture organisation on the filesystem by exif data",
+  "main": "start.js",
+  "dependencies": {
+    "dive": "^0.3.1",
+    "exif": "^0.4.0",
+    "mkdirp": "^0.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robdev1980/picorga.git"
+  },
+  "author": "robert.nimax@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robdev1980/picorga/issues"
+  },
+  "homepage": "https://github.com/robdev1980/picorga"
+}
