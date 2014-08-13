@@ -1,3 +1,4 @@
 data/**
 githelp.md
 testdrive.js
+node_modules/**
