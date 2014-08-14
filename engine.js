@@ -9,7 +9,7 @@ var rmdir = require('rimraf');
 exports.start = function(dir) {
   console.log("Filesystem based picture organization has been started");
   console.log("Looking for exif compatible files at: ", fileOperations.makeAbsPath(dir));
-  orgaDir = fileOperations.makeAbsPath(dir + '/../data-organized');
+  orgaDir = fileOperations.makeAbsPath(dir + '/..' + dir + '-organized');
   prepareOrgaDir(orgaDir, function(error) {
     if (error) console.error(error);
     else startDive(dir);
