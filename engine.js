@@ -5,8 +5,12 @@ var fileOperations = require('./file-operations.js');
 var path = require('path');
 var orgaDir;
 var rmdir = require('rimraf');
+var resultSet;
 
-exports.start = function(dir) {
+exports.start = function(dir, results) {
+  resultSet = results;
+  resultSet.filesSuccceeded = 0;
+  resultSet.filesFailed = 0;
   console.log("Filesystem based picture organization has been started");
   console.log("Looking for exif compatible files at: ", fileOperations.makeAbsPath(dir));
   orgaDir = fileOperations.makeAbsPath(dir + '/..' + dir + '-organized');
@@ -49,16 +53,28 @@ function handleFile(file) {
   console.log("Handling file: ", file);
   try {
     new ExifImage({ image : file }, function (error, exifData) {
-      if (error) console.log('Error: '+ error.message);
+      if (error) {
+        console.log('Error: '+ error.message);
+        resultSet.filesFailed++;
+      }
       else {
         orgaPath = orgaDir + utils.makePath(file, exifData.exif.CreateDate);
         fileOperations.createDir(orgaPath, function(error){
-          if (error) console.error(error);
+          if (error) {
+            console.error(error);
+            resultSet.filesFailed++;
+          }
           else {
             newDest = fileOperations.makeAbsPath(orgaPath) + '/' + path.basename(file);
             fileOperations.copyFile(file, newDest, function(error) {
-              if (error) console.error(error);
-              else console.log(file, " => ", newDest);
+              if (error) {
+                console.error(error);
+                resultSet.filesFailed++;
+              }
+              else {
+                console.log(file, " => ", newDest);
+                resultSet.filesSuccceeded++;
+              }
             });
           }
         });
@@ -67,5 +83,6 @@ function handleFile(file) {
     });
   } catch (error) {
     console.log('Error: ' + error.message);
+    resultSet.filesFailed++;
   }
 }
