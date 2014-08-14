@@ -18,32 +18,19 @@ exports.copyFile = function(source, target, cb) {
   rd.pipe(wr);
 }
 
-function copyFileCb(err) {
-  if(err) {
-    console.log('Error: ', err);
-  } else {
-    console.log('Success');
-  }
-}
-
-function makeAbsPath(dir) {
+exports.makeAbsPath = function(dir) {
   var ret = dir;
 
   if (dir.indexOf('/') === 0) {
     ret = process.cwd() + dir;    
   }
+  ret = path.normalize(ret);
 
   return ret;
 }
 
-exports.createDirByFileNamePath = function(fileNamePath, cb) {
-  var dir = makeAbsPath(fileNamePath);
-
-  mkdirp(path.dirname(dir), cb);
-}
-
 exports.createDir = function(dir, cb) {
-  var dir = makeAbsPath(dir);
+  var dir = exports.makeAbsPath(dir);
 
   mkdirp(dir, cb);
 }
